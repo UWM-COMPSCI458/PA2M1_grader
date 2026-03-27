@@ -214,12 +214,12 @@ function generate_line() {
 
 function execute_test() {
   line=$(generate_line $1)
-  inst=$($ASSEMBLER "$line")
-  inst="${inst:2}"
-  result=$($SUBMISSION "$inst")
-  correct_result=$($TESTER "$inst")
+  machine_code=$($ASSEMBLER "$line")
+  machine_code="${machine_code:2}"
+  result=$($SUBMISSION "$machine_code")
+  correct_result=$($TESTER "$machine_code")
 
-  echo "Evaluating instruction: \`$inst\`"
+  echo "Evaluating instruction: \`$machine_code\`"
   echo "> Assembly: $line"
   echo "> Evaluated output: $result"
   echo "> Expected output:  $correct_result"
@@ -237,7 +237,9 @@ function execute_test() {
 instructions=("add" "addiu" "and" "andi" "beq" "bne"
 "j" "lui" "lw" "or" "ori" "slt" "sub" "sw" "syscall")
 
-
+function get_random() {
+  echo -en $RANDOM
+}
 
 for inst in "${instructions[@]}"
 do
